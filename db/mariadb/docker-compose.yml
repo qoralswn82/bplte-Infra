@@ -1,0 +1,38 @@
+# Docker Compose 방식 (권장)
+# - 별도 이미지 빌드 없이 공식 MariaDB 이미지 + init 스크립트 마운트
+# - MySQL로 바꿀 때 image만 mariadb -> mysql:8 로 변경하면 됨 (DBMS 비종속)
+
+services:
+  db:
+    image: mariadb:11.2
+    container_name: bplte-mariadb
+
+    # 1. root 비밀번호 (필수)
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+      # 선택: 아래 지정 시 스키마/계정이 자동 생성되며, init SQL과 함께 사용 가능
+      # MYSQL_DATABASE: ${MYSQL_DATABASE:-BPLTE}
+      # MYSQL_USER: ${MYSQL_USER:-bplte_admin}
+      # MYSQL_PASSWORD: ${MYSQL_PASSWORD:-Admin1234!@}
+
+    ports:
+      - "${DB_PORT:-3306}:3306"
+
+    # 2~6. 초기화: 호스트의 init 스크립트를 컨테이너의 entrypoint 디렉터리에 마운트
+    # 최초 기동 시에만 실행됨 (데이터 볼륨이 비어 있을 때)
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/mysql
+
+    # 컨테이너 기동 시 OS 타임존 설정 후 기존 entrypoint 실행 (ln -sf ... /etc/localtime)
+    entrypoint: ["sh", "-c", "ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime && exec docker-entrypoint.sh \"$$@\""]
+    command: ["mariadbd", "--default-time-zone=Asia/Seoul"]
+
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:

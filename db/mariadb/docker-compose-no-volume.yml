@@ -1,0 +1,34 @@
+# Docker Compose - 볼륨 미사용 (데이터 비영속)
+# - db_data 볼륨 없음 → DB 데이터는 컨테이너 내부에만 저장
+# - 컨테이너 삭제 시 모든 데이터 삭제
+# - init 스크립트만 ./init 마운트로 전달 (초기 기동 시 1회 실행)
+
+services:
+  db:
+    image: mariadb:11.2
+    container_name: bplte-mariadb
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-gkfls5511}
+     # 선택 : 아래 지정 시 스키마/계정 자동 생성 (init SQL과 함께 사용 가능)
+     # MYSQL_DATABASE: ${MYSQL_DATABASE:-BPLTE}
+     # MYSQL_USER: ${MYSQL_USER:-bplte_admin}
+     # MYSQL_PASSWORD: ${MYSQL_PASSWORD:-Admin1234!@}
+
+    ports:
+      - "${DB_PORT:-3306}:3306"
+
+    # init 스크립트만 마운트 (데이터 볼륨 없음 → 컨테이너 삭제 시 데이터 소멸)
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+
+   # 컨테이너 기동 시 OS 타임존 설정 후 기존 entrypoint 실행 (ln -sf ... /etc/localtime)
+    entrypoint: ["sh", "-c", "ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime && exec docker-entrypoint.sh \"$$@\""]
+    command: ["mariadbd", "--default-time-zone=Asia/Seoul"]
+
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
