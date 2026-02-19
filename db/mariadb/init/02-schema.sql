@@ -13,7 +13,7 @@ CREATE TABLE TBL_USER
         PRIMARY KEY,
     USER_NAME VARCHAR(30)                          NOT NULL COMMENT '사용자_이름',
     EMAIL     VARCHAR(64)                          NOT NULL COMMENT '이메일',
-    SALT      CHAR(16)                             NOT NULL COMMENT 'SALT',
+    SALT      CHAR(64)                             NOT NULL COMMENT 'SALT',
     PASSWORD  CHAR(64)                             NOT NULL COMMENT 'PASSWORD',
     DEL_YN    CHAR     DEFAULT 'N'                 NOT NULL COMMENT '삭제_여부',
     REG_DT    DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '등록_일시',
