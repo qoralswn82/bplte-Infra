@@ -45,7 +45,7 @@ bplte-infra
 │   ├── down.sh
 │   └── reset.sh
 │
-├── .env.example
+├── .env.example                          # 환경구성 파일 예시 
 └── README.md
 ```
 
@@ -56,6 +56,7 @@ bplte-infra
 
 > ⚠️ 실제 docker-compose 설정 및 실행 방법은  
 > 각 디렉토리의 README 또는 compose 파일을 참고합니다.
+> 환경 파일 내부 구성 예시는 .env.example 파일을 참고하여 각 디렉토리 하위(=compose 파일과 동일 디렉터리)에 생성
 
 ---
 
