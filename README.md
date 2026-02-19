@@ -3,15 +3,31 @@
 BPLTE 애플리케이션을 위한  
 로컬 개발 및 실험용 인프라 환경 레포지토리입니다.
 
-DBMS 환경을 Docker Compose 기반으로 구성하여  
+DBMS, etc 환경을 Docker Compose 기반으로 구성하여  
 반복적인 로컬 세팅 작업을 줄이는 것을 목표로 합니다.
 
 ---
+
+## 구성 개요
+
+- Docker File / Docker Compose 기반
+- DBMS 컨테이너 단위 구성
+- 추가적인 환경 구축...
+
+---
+
+## 목적
+
+- 토이 프로젝트용 환경 빠른 구성
+- 환경 구성의 재사용성 확보
+
+---
+
 ## 레포 구조 
 
 ```
 bplte-infra
-├── db
+├── db                                   # DBMS별 기본 설정
 │   ├── mysql
 │   │   ├── docker-compose.yml
 │   │   ├── Dockerfile
@@ -33,26 +49,6 @@ bplte-infra
 └── README.md
 ```
 
----
-
-## 목적
-
-- 토이 프로젝트용 로컬 DB 환경 빠른 구성
-- MSA 구조에서 DB 분리 / 이중화 구조 실험
-- 환경 구성의 재사용성 확보
-
----
-
-## 구성 개요
-
-- Docker / Docker Compose 기반
-- DBMS 컨테이너 단위 구성
-
----
-
-## 디렉토리 구조
-
-- `db/` : DBMS별 기본 설정
 
 ---
 
