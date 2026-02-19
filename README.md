@@ -77,8 +77,18 @@ bplte-infra
 
 ```text
 docker-compose.yml          # 기본 구성
-docker-compose.dev.yml      # 로컬 개발 환경
+docker-compose.dev.yml      # 개발 환경
 docker-compose.prod.yml     # 운영 환경
 docker-compose.db.yml       # DB 전용 구성
 docker-compose.override.yml # 개인/환경별 오버라이드
+```
+
+### 2. docker-compose .env 파일명 규칙
+
+```text
+.env              # 기본 구성
+.env.dev          # 개발 환경
+.env.local        # 로컬 개발 환경
+.env.prod.yml     # 운영 환경
+.env.override.yml # 개인/환경별 오버라이드
 ```
