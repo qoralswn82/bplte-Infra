@@ -21,6 +21,7 @@
     + a. 접속 정보 기본값 (init/01-init.sql 기준)
     + b. init 스크립트 다시 실행하려면
     + c. DBMS 변경 (MySQL 등)
+    + d. 환경 변수 적용 방법
 
 ---
 
@@ -176,3 +177,25 @@ docker run -d --name bplte-mariadb -p 3306:3306 \
 - **Dockerfile:** `FROM mariadb:11` → `FROM mysql:8` 후 이미지 재빌드.
 
 `MYSQL_*` 환경변수와 `/docker-entrypoint-initdb.d/` 동작은 MySQL/MariaDB 공통이므로 init SQL은 그대로 사용 가능합니다.
+
+
+
+### d. 환경 변수 적용 방법
+
+> ⚠️ --env-file 옵션 없이 실행 명령어 실행 시  기본적으로 **.env 파일 확인**
+
+#### 옵션 사용 실행
+```bash
+cd /Users/baekminju/Desktop/private/bplte/env/dbms
+docker compose -f docker-compose-no-volume.yml --env-file {.env 파일} up -d
+```
+
+
+#### 환경 변수 파일 미존재 시 우선순위
+1. --env-file
+2. shell 환경변수
+3. .env 파일
+4. 없으면 빈 문자열 --> ⚠️ warning 발생
+
+
+
