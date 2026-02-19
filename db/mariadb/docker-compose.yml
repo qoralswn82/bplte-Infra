@@ -9,7 +9,7 @@ services:
 
     # 1. root 비밀번호 (필수)
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-gkfls5511}
       # 선택: 아래 지정 시 스키마/계정이 자동 생성되며, init SQL과 함께 사용 가능
       # MYSQL_DATABASE: ${MYSQL_DATABASE:-BPLTE}
       # MYSQL_USER: ${MYSQL_USER:-bplte_admin}
